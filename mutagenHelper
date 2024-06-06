@@ -1,0 +1,27 @@
+#! /bin/bash
+localDir=$1
+remoteAddress=$2
+remoteDir=$3
+Program=$(basename $0)
+
+function usage() {
+	MSG="usage: 
+	$Program <localDir> <remoteAddress> <remoteDir>
+
+example: 
+	$Program $(pwd) 172.30.40.60 /root/program/local-disk-manager"
+	echo "$MSG"
+}
+
+if [ "$localDir" == "" ] || [ "$remoteAddress" == "" ] || [ "$remoteDir" == "" ] 
+then 
+	usage && exit 1
+fi
+ 
+function genName() {
+	dirName=$(echo $localDir|awk -F'/' '{print $NF}')
+    remoteName=$(echo -n $remoteAddress | sed 's/\./-/g')
+    echo sync-${dirName}-To-${remoteName}
+}
+
+mutagen sync create --name=$(genName) -m one-way-safe $localDir root@${remoteAddress}:22:${remoteDir}
