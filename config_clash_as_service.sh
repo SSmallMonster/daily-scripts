@@ -2,6 +2,7 @@ set -e
 function prepare_config(){
 # 1. check clash installed
 ! (which clash > /dev/null 2>&1) && echo "clash not found in $PATH" && return 1
+clash=$(which clash)
 
 # 2. check if config offered
 [ $# != 1 ] && echo "no clash config offered!
@@ -22,7 +23,7 @@ service_template="# /etc/systemd/system/clash.service
    [Service]
    Type=simple
    User=root
-   ExecStart=clash -d /etc/clash/ -f /etc/clash/$defaultConfig
+   ExecStart=$clash -d /etc/clash/ -f /etc/clash/$defaultConfig
    Restart=on-failure
    RestartSec=3
 
