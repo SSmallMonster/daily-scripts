@@ -1,0 +1,7 @@
+# ref: https://bambowu.github.io/linux/MakefileCompletion/
+cat << EOF >> ~/.bashrc
+complete -W "\`if [ -f Makefile ]; then grep -oE '^[a-zA-Z0-9_-]+:([^=]|$)' Makefile | sed 's/[^a-zA-Z0-9_-]*$//'; elif [ -f makefile ]; then grep -oE '^[a-zA-Z0-9_-]+:([^=]|$)' makefile | sed 's/[^a-zA-Z0-9_-]*$//'; fi \`" make 
+EOF
+
+source ~/.bashrc
+
